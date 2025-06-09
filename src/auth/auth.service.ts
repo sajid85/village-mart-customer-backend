@@ -32,19 +32,31 @@ export class AuthService {
     };
   }
 
-  async register(createUserDto: { email: string; password: string; firstName: string; lastName: string }) {
+  async register(createUserDto: {
+    email: string;
+    password: string;
+    firstName: string;
+    lastName: string;
+  }) {
     const user = await this.usersService.create(createUserDto);
     const { password, ...result } = user;
     return this.login(result);
   }
 
-  async changePassword(userId: string, currentPassword: string, newPassword: string) {
+  async changePassword(
+    userId: string,
+    currentPassword: string,
+    newPassword: string,
+  ) {
     const user = await this.usersService.findOneWithPassword(userId);
     if (!user) {
       throw new UnauthorizedException('User not found');
     }
 
-    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    const isPasswordValid = await bcrypt.compare(
+      currentPassword,
+      user.password,
+    );
     if (!isPasswordValid) {
       throw new UnauthorizedException('Current password is incorrect');
     }
@@ -54,4 +66,4 @@ export class AuthService {
 
     return { message: 'Password changed successfully' };
   }
-} 
+}

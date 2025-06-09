@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Order, OrderItem } from './entities/order.entity';
@@ -70,7 +74,9 @@ export class OrdersService {
           });
 
           if (!product) {
-            throw new NotFoundException(`Product with ID ${item.productId} not found`);
+            throw new NotFoundException(
+              `Product with ID ${item.productId} not found`,
+            );
           }
 
           const orderItem = this.orderItemsRepository.create({
@@ -106,18 +112,21 @@ export class OrdersService {
     } catch (error) {
       // If anything fails, rollback the transaction
       await queryRunner.rollbackTransaction();
-      
+
       // If it's already a NestJS exception, rethrow it
-      if (error instanceof BadRequestException || error instanceof NotFoundException) {
+      if (
+        error instanceof BadRequestException ||
+        error instanceof NotFoundException
+      ) {
         throw error;
       }
-      
+
       // Log the error for debugging
       console.error('Error creating order:', error);
-      
+
       // Throw a more specific error message
       throw new BadRequestException(
-        `Failed to create order: ${error.message || 'Unknown error'}`
+        `Failed to create order: ${error.message || 'Unknown error'}`,
       );
     } finally {
       // Release the query runner
@@ -187,16 +196,16 @@ export class OrdersService {
   async getOrderStatistics(): Promise<any> {
     const totalOrders = await this.ordersRepository.count();
     const pendingOrders = await this.ordersRepository.count({
-      where: { status: 'pending' }
+      where: { status: 'pending' },
     });
     const processingOrders = await this.ordersRepository.count({
-      where: { status: 'processing' }
+      where: { status: 'processing' },
     });
     const shippedOrders = await this.ordersRepository.count({
-      where: { status: 'shipped' }
+      where: { status: 'shipped' },
     });
     const deliveredOrders = await this.ordersRepository.count({
-      where: { status: 'delivered' }
+      where: { status: 'delivered' },
     });
 
     return {
@@ -207,4 +216,4 @@ export class OrdersService {
       deliveredOrders,
     };
   }
-} 
+}

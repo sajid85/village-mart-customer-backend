@@ -14,8 +14,14 @@ export class CartService {
     private productRepository: Repository<Product>,
   ) {}
 
-  async addToCart(user: User, productId: string, quantity: number = 1): Promise<CartItem> {
-    const product = await this.productRepository.findOne({ where: { id: productId } });
+  async addToCart(
+    user: User,
+    productId: string,
+    quantity: number = 1,
+  ): Promise<CartItem> {
+    const product = await this.productRepository.findOne({
+      where: { id: productId },
+    });
     if (!product) {
       throw new NotFoundException('Product not found');
     }
@@ -34,7 +40,7 @@ export class CartService {
       user,
       product,
       quantity,
-      price: product.price
+      price: product.price,
     });
 
     return this.cartRepository.save(cartItem);
@@ -47,7 +53,11 @@ export class CartService {
     });
   }
 
-  async updateQuantity(userId: string, cartItemId: string, quantity: number): Promise<CartItem> {
+  async updateQuantity(
+    userId: string,
+    cartItemId: string,
+    quantity: number,
+  ): Promise<CartItem> {
     const cartItem = await this.cartRepository.findOne({
       where: { id: cartItemId, user: { id: userId } },
       relations: ['product'],
@@ -83,6 +93,9 @@ export class CartService {
 
   async getCartTotal(userId: string): Promise<number> {
     const cartItems = await this.getCart(userId);
-    return cartItems.reduce((total, item) => total + (item.product.price * item.quantity), 0);
+    return cartItems.reduce(
+      (total, item) => total + item.product.price * item.quantity,
+      0,
+    );
   }
-} 
+}

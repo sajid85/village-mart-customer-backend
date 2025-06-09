@@ -18,12 +18,14 @@ import { OrdersModule } from './orders/orders.module';
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get('DB_HOST', 'localhost'),
-        port: configService.get('DB_PORT', 5432),
+        port: Number(configService.get('DB_PORT', 5432)),
         username: configService.get('DB_USERNAME', 'postgres'),
         password: configService.get('DB_PASSWORD', '44221@@'),
         database: configService.get('DB_DATABASE', 'villagemart'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: configService.get('DB_SYNC', true),
+        // --- ADD SSL SUPPORT ---
+        ssl: { rejectUnauthorized: false }, // <-- THIS LINE is required for Render!
       }),
       inject: [ConfigService],
     }),

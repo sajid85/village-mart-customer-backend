@@ -19,9 +19,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     this.logger.debug(`Validating JWT payload: ${JSON.stringify(payload)}`);
     const user = await this.usersService.findOne(payload.sub);
     if (!user) {
-      this.logger.error(`User not found for payload: ${JSON.stringify(payload)}`);
+      this.logger.error(
+        `User not found for payload: ${JSON.stringify(payload)}`,
+      );
       throw new UnauthorizedException();
     }
     return user;
   }
-} 
+}

@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Patch, Param, Body, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Param,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { Product } from './entities/product.entity';
@@ -36,4 +44,4 @@ export class ProductsController {
   seedProducts() {
     return this.productsService.seedProducts();
   }
-} 
+}

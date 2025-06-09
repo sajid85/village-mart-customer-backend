@@ -18,7 +18,7 @@ const cld = new Cloudinary({
     cloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
     apiKey: process.env.CLOUDINARY_API_KEY || '',
     apiSecret: process.env.CLOUDINARY_API_SECRET || '',
-  }
+  },
 });
 
 export const uploadImage = async (file: UploadedFile): Promise<string> => {
@@ -31,7 +31,7 @@ export const uploadImage = async (file: UploadedFile): Promise<string> => {
 
     // Clean up the temporary file
     fs.unlinkSync(file.path);
-    
+
     return result.secure_url;
   } catch (error) {
     // Clean up the temporary file in case of error
@@ -43,14 +43,18 @@ export const uploadImage = async (file: UploadedFile): Promise<string> => {
   }
 };
 
-export const generateImageUrl = (productName: string, category: string): string => {
-  return cld.image(`ecommerce/products/${category}/${productName}`)
+export const generateImageUrl = (
+  productName: string,
+  category: string,
+): string => {
+  return cld
+    .image(`ecommerce/products/${category}/${productName}`)
     .resize({
       width: 800,
       height: 800,
-      type: 'fill'
+      type: 'fill',
     })
     .quality('auto')
     .format('auto')
     .toURL();
-}; 
+};

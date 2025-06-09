@@ -12,8 +12,8 @@ export class AdminGuard extends JwtAuthGuard implements CanActivate {
 
     // Get the request object
     const request = context.switchToHttp().getRequest();
-    
+
     // Check if user has admin role
     return request.user?.role === 'admin';
   }
-} 
+}

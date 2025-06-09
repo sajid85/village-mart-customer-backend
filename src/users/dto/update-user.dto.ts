@@ -11,4 +11,4 @@ export class UpdateUserDto {
   avatar?: string;
   isEmailVerified?: boolean;
   isActive?: boolean;
-} 
+}

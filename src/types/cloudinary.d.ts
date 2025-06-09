@@ -6,11 +6,14 @@ declare module 'cloudinary' {
       api_secret: string;
     }): void;
     uploader: {
-      upload(path: string, options?: {
-        folder?: string;
-        use_filename?: boolean;
-        unique_filename?: boolean;
-      }): Promise<{
+      upload(
+        path: string,
+        options?: {
+          folder?: string;
+          use_filename?: boolean;
+          unique_filename?: boolean;
+        },
+      ): Promise<{
         secure_url: string;
         public_id: string;
       }>;
@@ -29,11 +32,7 @@ declare module '@cloudinary/url-gen' {
     });
 
     image(publicId: string): {
-      resize(options: {
-        width: number;
-        height: number;
-        type: string;
-      }): {
+      resize(options: { width: number; height: number; type: string }): {
         quality(value: string): {
           format(value: string): {
             toURL(): string;
@@ -42,4 +41,4 @@ declare module '@cloudinary/url-gen' {
       };
     };
   }
-} 
+}

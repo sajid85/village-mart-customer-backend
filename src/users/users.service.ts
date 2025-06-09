@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -30,7 +34,7 @@ export class UsersService {
 
     // Hash password
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    
+
     const user = this.usersRepository.create({
       ...createUserDto,
       password: hashedPassword,
@@ -41,14 +45,30 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     return this.usersRepository.find({
-      select: ['id', 'firstName', 'lastName', 'email', 'role', 'isActive', 'createdAt'],
+      select: [
+        'id',
+        'firstName',
+        'lastName',
+        'email',
+        'role',
+        'isActive',
+        'createdAt',
+      ],
     });
   }
 
   async findOne(id: string): Promise<User> {
     const user = await this.usersRepository.findOne({
       where: { id },
-      select: ['id', 'firstName', 'lastName', 'email', 'role', 'isActive', 'createdAt'],
+      select: [
+        'id',
+        'firstName',
+        'lastName',
+        'email',
+        'role',
+        'isActive',
+        'createdAt',
+      ],
     });
 
     if (!user) {
@@ -61,7 +81,16 @@ export class UsersService {
   async findOneWithPassword(id: string): Promise<User> {
     const user = await this.usersRepository.findOne({
       where: { id },
-      select: ['id', 'firstName', 'lastName', 'email', 'role', 'isActive', 'createdAt', 'password'],
+      select: [
+        'id',
+        'firstName',
+        'lastName',
+        'email',
+        'role',
+        'isActive',
+        'createdAt',
+        'password',
+      ],
     });
 
     if (!user) {
@@ -165,7 +194,7 @@ export class UsersService {
     ];
 
     const filteredData = Object.keys(profileData)
-      .filter(key => allowedFields.includes(key))
+      .filter((key) => allowedFields.includes(key))
       .reduce((obj, key) => {
         obj[key] = profileData[key];
         return obj;
@@ -174,4 +203,4 @@ export class UsersService {
     Object.assign(user, filteredData);
     return this.usersRepository.save(user);
   }
-} 
+}

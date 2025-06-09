@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Delete, Param, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Delete,
+  Param,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { WishlistService } from './wishlist.service';
 
@@ -31,4 +39,4 @@ export class WishlistController {
   isInWishlist(@Request() req, @Param('productId') productId: string) {
     return this.wishlistService.isInWishlist(req.user.id, productId);
   }
-} 
+}

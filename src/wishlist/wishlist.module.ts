@@ -11,4 +11,4 @@ import { Product } from '../products/entities/product.entity';
   providers: [WishlistService],
   exports: [WishlistService],
 })
-export class WishlistModule {} 
+export class WishlistModule {}
