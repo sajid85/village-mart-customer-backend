@@ -24,6 +24,8 @@ import { OrdersModule } from './orders/orders.module';
         database: configService.get('DB_DATABASE', 'villagemart'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: configService.get('DB_SYNC', true),
+        // --- ADD SSL SUPPORT ---
+        ssl: { rejectUnauthorized: false }, // <-- THIS LINE is required for Render!
       }),
       inject: [ConfigService],
     }),
