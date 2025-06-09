@@ -1,7 +1,3 @@
-import crypto from 'crypto';
-
-(globalThis as unknown as { crypto: typeof crypto }).crypto = crypto;
-
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
@@ -18,6 +14,8 @@ async function bootstrap() {
     credentials: true,
   });
 
-  await app.listen(3005);
+  const port = process.env.PORT || 3005;
+  await app.listen(port);
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
